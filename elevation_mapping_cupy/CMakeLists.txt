@@ -1,5 +1,4 @@
-# %Tag(FULLTEXT)%
-cmake_minimum_required(VERSION 3.0.2)
+cmake_minimum_required(VERSION 3.12)
 project(elevation_mapping_cupy)
 
 find_package(PythonInterp 3 REQUIRED)
@@ -14,46 +13,38 @@ else()
 endif()
 
 find_package(Eigen3 REQUIRED)
+find_package(ament_cmake REQUIRED)
+find_package(rclcpp REQUIRED)
+find_package(rclpy REQUIRED)
+find_package(tf2 REQUIRED)
+find_package(pcl_ros REQUIRED)
+find_package(std_msgs REQUIRED)
+find_package(sensor_msgs REQUIRED)
+find_package(grid_map_ros REQUIRED)
+find_package(geometry_msgs REQUIRED)
+find_package(grid_map_msgs REQUIRED)
+find_package(image_transport REQUIRED)
+find_package(pybind11_vendor REQUIRED)
+find_package(elevation_map_msgs REQUIRED)
 
-find_package(catkin REQUIRED
-  roscpp
-  rospy
-  tf
-  tf_conversions
-  sensor_msgs
-  std_msgs
-  geometry_msgs
-  elevation_map_msgs
-  grid_map_msgs
-  grid_map_ros
-  image_transport
-  pcl_ros
-  pybind11_catkin
-)
-
-catkin_package(
-  INCLUDE_DIRS
-    include
-    ${EIGEN3_INCLUDE_DIRS}
-  CATKIN_DEPENDS
-    roscpp
-    rospy
-    tf
-    tf_conversions
-    sensor_msgs
-    std_msgs
-    geometry_msgs
-    elevation_map_msgs
-    grid_map_ros
-    image_transport
+set(dependencies
+    rclcpp
+    rclpy
+    tf2
     pcl_ros
-    pybind11_catkin
+    std_msgs
+    sensor_msgs
+    grid_map_ros
+    geometry_msgs
+    grid_map_msgs
+    image_transport
+    pybind11_vendor
+    elevation_map_msgs
 )
 
 include_directories(
   include
   ${PYTHON_INCLUDE_DIRS}
-  ${catkin_INCLUDE_DIRS}
   ${EIGEN3_INCLUDE_DIRS}
   ${OpenCV_INCLUDE_DIRS}
 )
@@ -62,19 +53,37 @@ add_library(elevation_mapping_ros
     src/elevation_mapping_wrapper.cpp
     src/elevation_mapping_ros.cpp)
 
-target_link_libraries(elevation_mapping_ros ${PYTHON_LIBRARIES} ${catkin_LIBRARIES} ${OpenCV_LIBRARIES})
+ament_target_dependencies(elevation_mapping_ros ${dependencies})
+target_link_libraries(elevation_mapping_ros ${PYTHON_LIBRARIES} ${OpenCV_LIBRARIES})
 
 add_executable(elevation_mapping_node src/elevation_mapping_node.cpp)
+ament_target_dependencies(elevation_mapping_node ${dependencies})
 target_link_libraries(elevation_mapping_node elevation_mapping_ros)
 
-catkin_python_setup()
+pybind11_vendor()
 
 install(
   TARGETS elevation_mapping_ros elevation_mapping_node
-  ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-  LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-  RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
+  EXPORT export_${PROJECT_NAME}
+  ARCHIVE DESTINATION lib
+  LIBRARY DESTINATION lib
+  RUNTIME DESTINATION bin)
 
 install(
   DIRECTORY launch config
   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION})
+
+install(
+  TARGETS ${PROJECT_NAME}
+  EXPORT export_${PROJECT_NAME}
+  ARCHIVE DESTINATION lib
+  LIBRARY DESTINATION lib
+  RUNTIME DESTINATION bin
+  INCLUDES DESTINATION include/${PROJECT_NAME}
+)
+  
+install(DIRECTORY launch/ DESTINATION include/${PROJECT_NAME})
+  
+
+
+ament_export_dependencies(${dependencies})  
