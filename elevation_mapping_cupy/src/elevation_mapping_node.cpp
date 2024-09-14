@@ -7,7 +7,7 @@
 #include <pybind11/embed.h>  // everything needed for embedding
 
 // ROS
-#include <ros/ros.h>
+#include <rclcpp/rclcpp.hpp>
 
 #include "elevation_mapping_cupy/elevation_mapping_ros.hpp"
 

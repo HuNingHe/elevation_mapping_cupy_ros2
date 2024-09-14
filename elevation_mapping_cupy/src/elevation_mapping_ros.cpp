@@ -9,14 +9,14 @@
 #include <pybind11/eigen.h>
 
 // ROS
-#include <geometry_msgs/Point32.h>
-#include <ros/package.h>
-#include <tf_conversions/tf_eigen.h>
+#include <geometry_msgs/msg/point32.hpp>
+// #include <ros/package.h>
+// #include <tf_conversions/tf_eigen.h>
 
 // PCL
 #include <pcl/common/projection_matrix.h>
 
-#include <elevation_map_msgs/Statistics.h>
+#include <elevation_map_msgs/msg/statistics.hpp>
 
 namespace elevation_mapping_cupy {
 

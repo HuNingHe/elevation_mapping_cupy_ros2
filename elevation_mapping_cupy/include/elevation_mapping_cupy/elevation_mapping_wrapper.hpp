@@ -16,15 +16,15 @@
 #include <pybind11/stl.h>
 
 // ROS
-#include <geometry_msgs/PoseWithCovarianceStamped.h>
-#include <ros/ros.h>
-#include <sensor_msgs/PointCloud2.h>
-#include <std_srvs/Empty.h>
-#include <tf/transform_listener.h>
+#include <geometry_msgs/msg/pose_with_covariance_stamped.hpp>
+#include <rclcpp/rclcpp.hpp>
+#include <sensor_msgs/msg/point_cloud2.hpp>
+#include <std_srvs/srv/empty.hpp>
+#include <tf2_ros/transform_listener.h>
 
 // Grid Map
-#include <grid_map_msgs/GetGridMap.h>
-#include <grid_map_msgs/GridMap.h>
+#include <grid_map_msgs/srv/get_grid_map.hpp>
+#include <grid_map_msgs/msg/grid_map.hpp>
 #include <grid_map_ros/grid_map_ros.hpp>
 
 // PCL

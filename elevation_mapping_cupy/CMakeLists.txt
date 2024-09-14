@@ -19,6 +19,7 @@ find_package(rclpy REQUIRED)
 find_package(tf2 REQUIRED)
 find_package(pcl_ros REQUIRED)
 find_package(std_msgs REQUIRED)
+find_package(std_srvs REQUIRED)
 find_package(sensor_msgs REQUIRED)
 find_package(grid_map_ros REQUIRED)
 find_package(geometry_msgs REQUIRED)
@@ -33,6 +34,7 @@ set(dependencies
     tf2
     pcl_ros
     std_msgs
+    std_srvs
     sensor_msgs
     grid_map_ros
     geometry_msgs
@@ -60,7 +62,7 @@ add_executable(elevation_mapping_node src/elevation_mapping_node.cpp)
 ament_target_dependencies(elevation_mapping_node ${dependencies})
 target_link_libraries(elevation_mapping_node elevation_mapping_ros)
 
-pybind11_vendor()
+# pybind11_vendor()
 
 install(
   TARGETS elevation_mapping_ros elevation_mapping_node
@@ -71,19 +73,12 @@ install(
 
 install(
   DIRECTORY launch config
-  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION})
+  DESTINATION share/${PROJECT_NAME})
 
-install(
-  TARGETS ${PROJECT_NAME}
-  EXPORT export_${PROJECT_NAME}
-  ARCHIVE DESTINATION lib
-  LIBRARY DESTINATION lib
-  RUNTIME DESTINATION bin
-  INCLUDES DESTINATION include/${PROJECT_NAME}
-)
+install(DIRECTORY include/ DESTINATION include/${PROJECT_NAME})
   
-install(DIRECTORY launch/ DESTINATION include/${PROJECT_NAME})
-  
-
 
 ament_export_dependencies(${dependencies})  
+ament_export_include_directories("include/${PROJECT_NAME}")
+ament_export_targets(export_${PROJECT_NAME} HAS_LIBRARY_TARGET)
+ament_package()

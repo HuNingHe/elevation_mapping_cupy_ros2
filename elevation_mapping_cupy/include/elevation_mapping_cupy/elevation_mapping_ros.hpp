@@ -16,26 +16,26 @@
 #include <pybind11/embed.h>  // everything needed for embedding
 
 // ROS
-#include <geometry_msgs/PolygonStamped.h>
-#include <image_transport/image_transport.h>
-#include <image_transport/subscriber_filter.h>
+#include <geometry_msgs/msg/polygon_stamped.hpp>
+#include <image_transport/image_transport.hpp>
+#include <image_transport/subscriber_filter.hpp>
 #include <message_filters/subscriber.h>
 #include <message_filters/sync_policies/approximate_time.h>
 #include <message_filters/synchronizer.h>
-#include <ros/ros.h>
-#include <sensor_msgs/CameraInfo.h>
-#include <sensor_msgs/Image.h>
-#include <sensor_msgs/PointCloud2.h>
-#include <std_srvs/Empty.h>
-#include <std_srvs/SetBool.h>
-#include <tf/transform_broadcaster.h>
-#include <tf/transform_listener.h>
-#include <visualization_msgs/Marker.h>
-#include <visualization_msgs/MarkerArray.h>
+#include <rclcpp/rclcpp.hpp>
+#include <sensor_msgs/msg/camera_info.hpp>
+#include <sensor_msgs/msg/image.hpp>
+#include <sensor_msgs/msg/point_cloud2.hpp>
+#include <std_srvs/srv/empty.hpp>
+#include <std_srvs/srv/set_bool.hpp>
+#include <tf2_ros/transform_broadcaster.h>
+#include <tf2_ros/transform_listener.h>
+#include <visualization_msgs/msg/marker.hpp>
+#include <visualization_msgs/msg/marker_array.hpp>
 
 // Grid Map
-#include <grid_map_msgs/GetGridMap.h>
-#include <grid_map_msgs/GridMap.h>
+#include <grid_map_msgs/srv/get_grid_map.hpp>
+#include <grid_map_msgs/msg/grid_map.hpp>
 #include <grid_map_ros/grid_map_ros.hpp>
 
 // PCL
@@ -47,9 +47,9 @@
 #include <opencv2/core.hpp>
 #include <opencv2/core/eigen.hpp>
 
-#include <elevation_map_msgs/CheckSafety.h>
-#include <elevation_map_msgs/Initialize.h>
-#include <elevation_map_msgs/ChannelInfo.h>
+#include <elevation_map_msgs/srv/check_safety.hpp>
+#include <elevation_map_msgs/srv/initialize.hpp>
+#include <elevation_map_msgs/msg/channel_info.hpp>
 
 #include "elevation_mapping_cupy/elevation_mapping_wrapper.hpp"
 
