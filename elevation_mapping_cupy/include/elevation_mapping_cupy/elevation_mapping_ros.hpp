@@ -114,9 +114,9 @@ class ElevationMappingNode {
   void publishStatistics(const ros::TimerEvent&);
   void publishMapOfIndex(int index);
 
-  visualization_msgs::Marker vectorToArrowMarker(const Eigen::Vector3d& start, const Eigen::Vector3d& end, const int id) const;
+  visualization_msgs::msg::Marker vectorToArrowMarker(const Eigen::Vector3d& start, const Eigen::Vector3d& end, const int id) const;
 
-  ros::NodeHandle nh_;
+  rclcpp::Node::SharedPtr nh_;
   image_transport::ImageTransport it_;
   std::vector<ros::Subscriber> pointcloudSubs_;
   std::vector<ImageSubscriberPtr> imageSubs_;
@@ -137,11 +137,11 @@ class ElevationMappingNode {
   ros::ServiceServer initializeMapService_;
   ros::ServiceServer setPublishPointService_;
   ros::ServiceServer checkSafetyService_;
-  ros::Timer updateVarianceTimer_;
-  ros::Timer updateTimeTimer_;
-  ros::Timer updatePoseTimer_;
-  ros::Timer updateGridMapTimer_;
-  ros::Timer publishStatisticsTimer_;
+  rclcpp::TimerBase::SharedPtr updateVarianceTimer_;
+  rclcpp::TimerBase::SharedPtr updateTimeTimer_;
+  rclcpp::TimerBase::SharedPtr updatePoseTimer_;
+  rclcpp::TimerBase::SharedPtr updateGridMapTimer_;
+  rclcpp::TimerBase::SharedPtr publishStatisticsTimer_;
   ros::Time lastStatisticsPublishedTime_;
   tf::TransformListener transformListener_;
   ElevationMappingWrapper map_;
@@ -157,7 +157,7 @@ class ElevationMappingNode {
   std::set<std::string> map_layers_sync_;
   std::vector<double> map_fps_;
   std::set<double> map_fps_unique_;
-  std::vector<ros::Timer> mapTimers_;
+  std::vector<rclcpp::TimerBase::SharedPtr> mapTimers_;
   std::map<std::string, std::vector<std::string>> channels_;
 
   std::vector<std::string> initialize_frame_id_;

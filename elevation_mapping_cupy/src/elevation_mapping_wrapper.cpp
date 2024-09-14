@@ -13,6 +13,7 @@
 
 // ROS
 // #include <ros/package.h>
+#include <ament_index_cpp/get_package_share_directory.hpp>
 
 #include <utility>
 
@@ -20,7 +21,7 @@ namespace elevation_mapping_cupy {
 
 ElevationMappingWrapper::ElevationMappingWrapper() {}
 
-void ElevationMappingWrapper::initialize(ros::NodeHandle& nh) {
+void ElevationMappingWrapper::initialize(std::shared_ptr<rclcpp::Node>& nh) {
   // Add the elevation_mapping_cupy path to sys.path
   auto threading = py::module::import("threading");
   py::gil_scoped_acquire acquire;
@@ -42,7 +43,7 @@ void ElevationMappingWrapper::initialize(ros::NodeHandle& nh) {
  *  Load ros parameters into Parameter class.
  *  Search for the same name within the name space.
  */
-void ElevationMappingWrapper::setParameters(ros::NodeHandle& nh) {
+void ElevationMappingWrapper::setParameters(std::shared_ptr<rclcpp::Node>& nh) {
   // Get all parameters names and types.
   py::list paramNames = param_.attr("get_names")();
   py::list paramTypes = param_.attr("get_types")();

@@ -44,7 +44,7 @@ class ElevationMappingWrapper {
 
   ElevationMappingWrapper();
 
-  void initialize(ros::NodeHandle& nh);
+  void initialize(std::shared_ptr<rclcpp::Node>& nh);
 
   void input(const RowMatrixXd& points, const std::vector<std::string>& channels, const RowMatrixXd& R, const Eigen::VectorXd& t,
              const double positionNoise, const double orientationNoise);
@@ -64,7 +64,7 @@ class ElevationMappingWrapper {
   void addNormalColorLayer(grid_map::GridMap& map);
 
  private:
-  void setParameters(ros::NodeHandle& nh);
+  void setParameters(std::shared_ptr<rclcpp::Node>& nh);
   py::object map_;
   py::object param_;
   double resolution_;
